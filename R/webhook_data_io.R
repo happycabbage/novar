@@ -17,25 +17,53 @@ NULL
 #' @export
 hcazapier <- function(..., apikey = NULL) {
 
-  if (is.null(apikey))
-    stop( "Argument partner_key missing and required" )
-
   partner_guid <- verifyPartnerKey( apikey )
 
   ts_utc_int <- ceiling(as.numeric(lubridate::now(tzone = "UTC")))
-  input_data <- rlang::dots_values(...)
 
-  return( list("partner_guid" = partner_guid,
-               "sent_utc_int" = ts_utc_int,
-               "received_dat" = input_data) )
+
+  body <- list(
+    file_name = paste0(partner_guid, "_", ts_utc_int),
+    input_data = rlang::dots_values(...),
+    apikey = apikey
+  )
+
+  url <- "http://localhost/ocpu/library/novar/R/write_session_data"
+  r <- httr::POST(url, body = body)
+
+  session_id <- r$headers[["x-ocpu-session"]]
+
+  con <- DBI::dbConnect(odbc::odbc(),
+                        Driver = "PostgreSQL",
+                        database = Sys.getenv("DB_NAME"),
+                        UID    = Sys.getenv("DB_USER"),
+                        PWD    = Sys.getenv("DB_PWD"),
+                        host = Sys.getenv("DB_HOST"),
+                        port = 5432)
+  on.exit(DBI::dbDisconnect(con))
+
+  row <-  data.table::data.table(lubridate::now(tzone = "UTC"), session_id)
+  DBI::dbAppendTable(con, "wh_api_data", row)
+
+  return(TRUE)
+
 }
+
+
+
+
+
+#' @describeIn zappier_data_ingest TBD
+#' @export
+write_session_data <- function(file_name, input_data, apikey){
+  jsonlite::write_json(input_data, file_name)
+}
+
 
 
 #' @describeIn zappier_data_ingest TBD
 #' @export
 verifyPartnerKey <- function(apikey){
-  warning( "NO VERIFICATION PERFORMED (TESTING)" )
+  warning( "NO VERIFICATION PERFORMED (TESTING)")
   return("ABCDEFG")
 }
-
-

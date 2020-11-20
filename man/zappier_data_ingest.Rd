@@ -3,10 +3,13 @@
 \name{zappier_data_ingest}
 \alias{zappier_data_ingest}
 \alias{hcazapier}
+\alias{write_session_data}
 \alias{verifyPartnerKey}
 \title{Webhook Data Integration}
 \usage{
 hcazapier(..., apikey = NULL)
+
+write_session_data(file_name, input_data, apikey)
 
 verifyPartnerKey(apikey)
 }
@@ -22,6 +25,8 @@ must provide valid partner issued api key
 \section{Functions}{
 \itemize{
 \item \code{hcazapier}: TBD
+
+\item \code{write_session_data}: TBD
 
 \item \code{verifyPartnerKey}: TBD
 }}

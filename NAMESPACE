@@ -2,5 +2,6 @@
 
 export(hcazapier)
 export(verifyPartnerKey)
+export(write_session_data)
 importFrom(lubridate,now)
 importFrom(rlang,dots_values)
