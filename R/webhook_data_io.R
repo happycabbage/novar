@@ -35,8 +35,8 @@ hcazapier <- function(..., apikey = NULL) {
     apikey = apikey
   )
 
-  url <- "http://localhost/ocpu/library/novar/R/write_session_data"
-  r <- httr::POST(url, body = body)
+  url <- "http://159.65.104.28/ocpu/library/novar/R/write_session_data"
+  r <- httr::POST(url, body = body, encode = "json")
 
   session_id <- r$headers[["x-ocpu-session"]]
 
@@ -49,15 +49,18 @@ hcazapier <- function(..., apikey = NULL) {
                         port = 5432)
   on.exit(DBI::dbDisconnect(con))
 
-  row <-  data.table::data.table(lubridate::now(tzone = "UTC"),
-                                 session_id,
-                                 fname)
+  row <-  data.table::data.table(created_utc = lubridate::now(tzone = "UTC"),
+                                 session_tmp_id = session_id,
+                                 filename = fname)
 
   DBI::dbAppendTable(con, "wh_api_data", row)
 
   return(TRUE)
 
 }
+# base_api <- "http://159.65.104.28/ocpu"
+# httr::GET(stringr::str_glue("{base_api}/tmp/x0ceeae977187bd/files/ABCDEFG_1605847663"))
+
 
 
 
@@ -66,7 +69,7 @@ hcazapier <- function(..., apikey = NULL) {
 #' @describeIn zappier_data_ingest TBD
 #' @export
 write_session_data <- function(file_name, input_data, apikey){
-  jsonlite::write_json(input_data, file_name)
+  saveRDS(input_data, file_name)
 }
 
 
