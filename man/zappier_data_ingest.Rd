@@ -17,6 +17,10 @@ verifyPartnerKey(apikey)
 \item{...}{data sent in request}
 
 \item{apikey}{partner issued api key}
+
+\item{file_name}{TBD}
+
+\item{input_data}{TBD}
 }
 \description{
 Endpoint to receive data external system, triggered by webhook,

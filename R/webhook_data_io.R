@@ -5,9 +5,16 @@
 #'
 #' @param apikey partner issued api key
 #' @param ... data sent in request
+#' @param file_name TBD
+#' @param input_data TBD
 #'
 #' @importFrom rlang dots_values
 #' @importFrom lubridate now
+#' @importFrom data.table data.table
+#' @importFrom DBI dbConnect dbDisconnect dbAppendTable
+#' @importFrom odbc odbc
+#' @importFrom httr POST
+#' @importFrom jsonlite write_json
 #'
 #' @name zappier_data_ingest
 NULL
@@ -21,9 +28,9 @@ hcazapier <- function(..., apikey = NULL) {
 
   ts_utc_int <- ceiling(as.numeric(lubridate::now(tzone = "UTC")))
 
-
+  fname <- paste0(partner_guid, "_", ts_utc_int)
   body <- list(
-    file_name = paste0(partner_guid, "_", ts_utc_int),
+    file_name = fname,
     input_data = rlang::dots_values(...),
     apikey = apikey
   )
@@ -42,7 +49,10 @@ hcazapier <- function(..., apikey = NULL) {
                         port = 5432)
   on.exit(DBI::dbDisconnect(con))
 
-  row <-  data.table::data.table(lubridate::now(tzone = "UTC"), session_id)
+  row <-  data.table::data.table(lubridate::now(tzone = "UTC"),
+                                 session_id,
+                                 fname)
+
   DBI::dbAppendTable(con, "wh_api_data", row)
 
   return(TRUE)
