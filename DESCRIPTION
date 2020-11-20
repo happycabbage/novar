@@ -19,6 +19,7 @@ Imports:
     data.table,
     odbc,
     DBI,
-    jsonlite
+    jsonlite,
+    RPostgres
 Suggests: 
     covr
