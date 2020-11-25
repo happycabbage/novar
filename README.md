@@ -1,5 +1,5 @@
 
-# novar
+# novar <img src='man/figures/logo.png' align="right" height="52" />
 
 <!-- badges: start -->
 [![Travis build status](https://travis-ci.com/happycabbage/novar.svg?branch=master)](https://travis-ci.com/happycabbage/novar)
@@ -24,3 +24,7 @@ stop_for_status(resp)
 content(resp, "text")
 
 ```
+
+
+**Happy Cabbage Analytics Inc. - All rights reserved**
+

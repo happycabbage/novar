@@ -22,4 +22,5 @@ Imports:
     jsonlite,
     RPostgres
 Suggests: 
-    covr
+    covr,
+    testthat
