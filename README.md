@@ -3,7 +3,7 @@
 
 <!-- badges: start -->
 [![Travis build status](https://travis-ci.com/happycabbage/novar.svg?branch=master)](https://travis-ci.com/happycabbage/novar)
-[![Codecov test coverage](https://codecov.io/gh/happycabbage/novar/branch/master/graph/badge.svg)](https://codecov.io/gh/happycabbage/novar?branch=master)
+[![codecov test coverage](https://codecov.io/gh/happycabbage/novar/branch/master/graph/badge.svg?token=FMRTKTSNN4)](https://codecov.io/gh/happycabbage/novar)
 <!-- badges: end -->
 
 ## Description
